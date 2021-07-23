@@ -1,7 +1,13 @@
 import math
 
-def reward_function(self, on_track, x, y, distance_from_center, car_orientation, progress, steps,
-                        throttle, steering, track_width, waypoints, closest_waypoints):
+def reward_function(params):
+    
+    waypoints = params["waypoints"]
+    closest_waypoints = params["closest_waypoints"]
+    car_orientation = params["heading"]
+    x = params["x"]
+    y = params["y"]
+    
 
     reward = 1e-3
 
@@ -12,7 +18,7 @@ def reward_function(self, on_track, x, y, distance_from_center, car_orientation,
 
     # Find nearest waypoint coordinates
 
-    rabbit = [waypoints[closest_waypoints+1][0],waypoints[closest_waypoints+1][1]]
+    rabbit = [waypoints[closest_waypoints[1]][0],waypoints[closest_waypoints[1]][1]]
 
     radius = math.hypot(x - rabbit[0], y - rabbit[1])
 
@@ -30,4 +36,4 @@ def reward_function(self, on_track, x, y, distance_from_center, car_orientation,
     else:
         reward += ( 1 - ( vector_delta / (radius * 2)))
 
-    return reward
+    return float(reward)
